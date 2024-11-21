@@ -8,6 +8,7 @@ WORKDIR /usr/src/app
 
 COPY ./requirements.txt .
 
-RUN pip install --upgrade pip && pip install -r requirements.txt
+RUN pip install --upgrade pip && pip install --default-timeout=100 -r requirements.txt
 
 COPY ./core .
+CMD ["python3","manage.py","runserver","0.0.0.0:8000" ]
