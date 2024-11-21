@@ -10,8 +10,8 @@ services:
       POSTGRES_DB: ${DATABASE_NAME}
       POSTGRES_USER: ${DATABASE_USER}
       POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
-    expose:
-      - 5432
+    ports:
+      - "5432:5432"
     restart: always
 
   backend_django_shop:
@@ -31,7 +31,12 @@ services:
       - SECRET_KEY=${SECRET_KEY}
       - DEBUG=${DEBUG}
       - ALLOWED_HOSTS=${ALLOWED_HOSTS}
-
+      - DATABASE_ENGINE=${DATABASE_ENGINE}
+      - DATABASE_NAME=${DATABASE_NAME}
+      - DATABASE_USER=${DATABASE_USER}
+      - DATABASE_PASSWORD=${DATABASE_PASSWORD}
+      - DATABASE_HOST=${DATABASE_HOST}
+      - DATABASE_PORT=${DATABASE_PORT}
     restart: always
     depends_on:
       - db_django_shop
