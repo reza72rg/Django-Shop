@@ -65,6 +65,8 @@ WSGI_APPLICATION = 'core.wsgi.application'
 
 # accounts model settings
 AUTH_USER_MODEL = 'accounts.User'
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL= '/'
 
 
 # Database
@@ -141,3 +143,4 @@ EMAIL_PORT = env.int('EMAIL_PORT', default=587)
 EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD', default='your-password')
 EMAIL_USE_TLS = env.bool('EMAIL_USE_TLS', default=True)
 DEFAULT_FROM_EMAIL = env('DEFAULT_FROM_EMAIL', default='Your Website')
+
