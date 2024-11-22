@@ -489,6 +489,17 @@
   <!-- JS Toastify -->
     <script src="{% static 'vendor/toastify/toastify.js' %}"></script>
 
+
+  <script>
+    function changePage(page) {
+        const url = new URL(window.location.href);
+        url.searchParams.set('page', page);
+        window.location.href = url.href;
+    }
+</script>
+
+
+
   <!-- JS Plugins Init. -->
   <script>
     (function () {
