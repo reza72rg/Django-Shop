@@ -105,10 +105,17 @@
           <!-- Price -->
           <div class="mb-5">
             <span class="d-block mb-2">قیمت کل:</span>
+            {% if object.is_discounted %}
             <div class="d-flex align-items-center">
               <h3 class="mb-0">{{object.get_price}} تومان</h3>
               <span class="ms-2"><del>{{object.get_original_price}}تومان</del></span>
             </div>
+            {% else %}
+              <div class="d-flex align-items-center">
+              <h3 class="mb-0">{{object.get_price}} تومان</h3>
+
+            </div>
+            {% endif %}
           </div>
           <!-- End Price -->
 
@@ -231,7 +238,7 @@
         <div class="col-md-6 mb-5 mb-md-0">
           <div class="pe-lg-4">
             <h3>جزئیات</h3>
-            <p>همان‌طور که در خارج از زمین محبوب هستند، کلاه‌های «دوران جدید» در میان کسانی که به فرهنگ خیابانی علاقه دارند، یک مسئله استاندارد است و سبک‌های پیشرو را با طراحی با دقت طراحی شده ترکیب می‌کند. به دلیل استفاده نوآورانه از رنگ، طرح های جسورانه فصل به فصل اضافه می شوند و به همه چیز ارجاع می دهند.</p>
+            {{object.description|safe}}
           </div>
         </div>
         <!-- End Col -->
