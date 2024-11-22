@@ -1,5 +1,6 @@
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
+from decimal import Decimal
 from .tools import UploadToPathAndRename
 from .setting_models import MainModel
 
@@ -43,16 +44,32 @@ class ProductModel(MainModel):
     created_date = models.DateTimeField(auto_now_add=True)
     updated_date = models.DateTimeField(auto_now=True)
 
-    class Meta:
-        ordering = ["-created_date"]
-
     def __str__(self):
         return self.title
 
+    def get_price(self):
+        discount_amount = self.price * Decimal(self.discount_percent / 100)
+        discounted_amount = self.price - discount_amount
+        discounted_amount_rounded = round(discounted_amount)
+
+        # Format the rounded discounted price with commas
+        return "{:,}".format(discounted_amount_rounded)
+
+    def get_original_price(self):
+        return "{:,}".format(self.price)
+
+    def is_discounted(self):
+        return self.discount_percent != 0
 
     def is_published(self):
         return self.status == ProductStatusType.publish.value
 
+    def is_published(self):
+        return self.status == ProductStatusType.publish.value
+
+
+    class Meta:
+        ordering = ["-created_date"]
 
 class ProductImageModel(MainModel):
     product = models.ForeignKey(ProductModel, on_delete=models.CASCADE, related_name="product_images")
