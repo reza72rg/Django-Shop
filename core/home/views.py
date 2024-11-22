@@ -6,3 +6,11 @@ from django.views.generic import TemplateView
 
 class IndexViews(TemplateView):
     template_name = "home/index.html"
+
+
+class ContactView(TemplateView):
+    template_name = "home/page-contact.html"
+
+
+class AboutView(TemplateView):
+    template_name = "home/page-about.html"
