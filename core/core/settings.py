@@ -30,6 +30,7 @@ INSTALLED_APPS = [
     # My apps
     "home.apps.HomeConfig",
     "accounts.apps.AccountsConfig",
+    "shop.apps.ShopConfig",
 ]
 
 MIDDLEWARE = [
@@ -144,3 +145,5 @@ EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD', default='your-password')
 EMAIL_USE_TLS = env.bool('EMAIL_USE_TLS', default=True)
 DEFAULT_FROM_EMAIL = env('DEFAULT_FROM_EMAIL', default='Your Website')
 
+
+PASSWORD_RESET_TIMEOUT = 172800
