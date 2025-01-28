@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
-{% load custom_filters %}
+{% load shop_tags %}
 
 
 
@@ -157,12 +157,12 @@
                         <!-- Nav -->
                         <ul class="nav nav-segment">
                             <li class="nav-item">
-                                <a class="nav-link active" href="">
+                                <a class="nav-link active" href="{% url 'shop:product_grid' %}">
                                     <i class="bi-grid-fill"></i>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">
+                                <a class="nav-link" href="{% url 'shop:product_list' %}">
                                     <i class="bi-list"></i>
                                 </a>
                             </li>
@@ -174,19 +174,21 @@
             <!-- End Row -->
 
             <div class="row row-cols-sm-2 row-cols-md-3 mb-10">
-                {% for object in object_list %}
+                {% for product in products %}
                 <div class="col mb-4">
                     <!-- Card -->
                     <div class="card card-bordered shadow-none text-center h-100">
                         <div class="card-pinned">
-                            <img class="card-img-top" src="{{object.image.url}}" alt="Image Description">
+                            <a href="{% url 'shop:product_details' slug=product.slug %}">
+                      <img class="card-img-top" src="{{ product.image.url }}" alt="Image Description">
+                  </a>
 
                             <div class="card-pinned-top-end">
                                 {% if request.user.is_authenticated %}
                                 <button type="button"
-                                    class="btn btn-outline-secondary btn-xs btn-icon rounded-circle {% if object.id in wishlist_items %} active {% endif %} "
+                                    class="btn btn-outline-secondary btn-xs btn-icon rounded-circle {% if product.id in wishlist_items %} active {% endif %} "
                                     data-bs-toggle="tooltip" data-bs-placement="top" title="افزودن به علایق"
-                                    onclick="addToWishlist(this,`{{object.id}}`)">
+                                    onclick="addToWishlist(this,`{{product.id}}`)">
                                     <i class="bi-heart"></i>
                                 </button>
                                 {% endif %}
@@ -195,28 +197,29 @@
 
                         <div class="card-body">
                             <div class="mb-2">
-                                {% for category in object.category.all %}
-                                <a class="link-sm link-secondary" href="#"> {{category.title}} </a>
+                                {% for category in product.category.all %}
+                                <a class="link-sm link-secondary" href=""> {{category.title}} </a>
                                 {% if not forloop.last %}
                                 ,
                                 {% endif %}
                                 {% endfor %}
                             </div>
 
+
                             <h4 class="card-title">
                                 <a class="text-dark"
-                                    href="">{{object.title}}</a>
+                                    href="{% url 'shop:product_details' slug=product.slug %}">{{product.title}}</a>
                             </h4>
-                            {% if object.is_discounted %}
+                            {% if product.is_discounted %}
 <p class="card-text text-dark fs-4">
-    <span class="formatted-price">{{ object.get_price|format_price }}</span>
+    <span class="formatted-price">{{ product.get_price|format_price }}</span>
     <span class="text-body me-1 fs-6 formatted-price text-decoration-line-through">
-        {{ object.price|format_price }}
+        {{ product.price|format_price }}
     </span>
 </p>
 {% else %}
 <p class="card-text text-dark fs-4 formatted-price">
-    {{ object.price|format_price }}
+    {{ product.price|format_price }}
 </p>
 {% endif %}
 
@@ -238,7 +241,7 @@
                             <!-- End Rating -->
 
                             <button type="button" class="btn btn-outline-primary btn-sm btn-transition rounded-pill"
-                                onclick="addToCart('{{object.id}}')">افزودن به سبد
+                                onclick="addToCart('{{product.id}}')">افزودن به سبد
                                 خرید</button>
                         </div>
                     </div>

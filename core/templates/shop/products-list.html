@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load shop_tags %}
 
 
 {% block content %}
@@ -423,8 +424,9 @@
               <div class="row">
                 <div class="col-sm-4">
                   <div class="card-pinned">
-                    <img class="card-img-top" src="{% static 'img/300x180/img3.jpg' %} " alt="Image Description">
-
+                  <a href="{% url 'shop:product_details' slug=product.slug %}">
+                      <img class="card-img-top" src="{{ product.image.url }}" alt="Image Description">
+                  </a>
                     <div class="card-pinned-top-start">
                       <span class="badge bg-success rounded-pill">جدید</span>
                     </div>
@@ -433,16 +435,40 @@
                 <!-- End Col -->
 
                 <div class="col-sm-8">
+
                   <div class="card-body">
                     <div class="mb-2">
-                      <a class="link-sm link-secondary" href="#">تجهیزات جانبی</a>
+                      <a class="link-sm link-secondary" href="">تجهیزات جانبی</a>
                     </div>
+
+                      <div class="card-body">
+                            <div class="mb-2">
+                                {% for category in product.category.all %}
+                                <a class="link-sm link-secondary" href=""> {{category.title}} </a>
+                                {% if not forloop.last %}
+                                ,
+                                {% endif %}
+                                {% endfor %}
+                            </div>
+                   </div>
+
 
                     <div class="mb-2">
                       <h4 class="card-title">
-                        <a class="text-dark" href="/product-overview.html">کوله پشتی هرشل به رنگ آبی تیره</a>
+                        <a class="text-dark" href="{% url 'shop:product_details' slug=product.slug %}"> {{product.title}}</a>
                       </h4>
-                      <p class="card-text text-dark">$56.99</p>
+                      {% if product.is_discounted %}
+<p class="card-text text-dark fs-4">
+    <span class="formatted-price">{{ product.get_price|format_price }}</span>
+    <span class="text-body me-1 fs-6 formatted-price text-decoration-line-through">
+        {{ product.price|format_price }}
+    </span>
+</p>
+{% else %}
+<p class="card-text text-dark fs-4 formatted-price">
+    {{ product.price|format_price }}
+</p>
+{% endif %}
                     </div>
 
                     <!-- Rating -->
