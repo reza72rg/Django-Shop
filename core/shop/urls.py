@@ -1,4 +1,3 @@
-from urllib.parse import urlparse
 from .views import (
     ShopProductListView,
     ShopProductGridView,
