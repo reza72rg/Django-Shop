@@ -1,0 +1,10 @@
+docker-compose exec backend_django_shop python3 manage.py generate_categories
+
+docker-compose exec backend_django_shop python3 manage.py generate_product 
+docker-compose exec backend_django_shop python3 manage.py migrate   
+docker-compose exec backend_django_shop python3 manage.py makemigrations 
+docker-compose exec db_django_shop psql -U reza72rg -d django_shop_postgresql 
+
+\dt
+
+docker-compose up --build
