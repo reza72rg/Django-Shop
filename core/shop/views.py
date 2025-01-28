@@ -29,6 +29,7 @@ class ShopProductListView(ListView):
 class ShopProductGridView(ListView):
     template_name = "shop/products-grid.html"
     paginate_by = 6
+    context_object_name = "products"
 
     def get_paginate_by(self, queryset):
         return self.request.GET.get('page_size', self.paginate_by)
