@@ -1,8 +1,6 @@
 from django.db import models
-from django.core.validators import MaxValueValidator, MinValueValidator
 from decimal import Decimal
-from .tools import UploadToPathAndRename
-from .setting_models import MainModel
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 
 class ProductStatusType(models.IntegerChoices):
@@ -25,12 +23,12 @@ class ProductCategoryModel(models.Model):
 
 
 # Create your models here.
-class ProductModel(MainModel):
+class ProductModel(models.Model):
     user = models.ForeignKey("accounts.User", on_delete=models.PROTECT)
     category = models.ManyToManyField(ProductCategoryModel)
     title = models.CharField(max_length=255)
     slug = models.SlugField(allow_unicode=True, unique=True)
-    image = models.ImageField(upload_to = UploadToPathAndRename("product/img/"), default = 'default/product-image.png')
+    image = models.ImageField(default="/default/product-image.png", upload_to="product/img/")
     description = models.TextField()
     brief_description = models.TextField(null=True, blank=True)
 
@@ -44,19 +42,16 @@ class ProductModel(MainModel):
     created_date = models.DateTimeField(auto_now_add=True)
     updated_date = models.DateTimeField(auto_now=True)
 
+    class Meta:
+        ordering = ["-created_date"]
+
     def __str__(self):
         return self.title
 
     def get_price(self):
         discount_amount = self.price * Decimal(self.discount_percent / 100)
         discounted_amount = self.price - discount_amount
-        discounted_amount_rounded = round(discounted_amount)
-
-        # Format the rounded discounted price with commas
-        return "{:,}".format(discounted_amount_rounded)
-
-    def get_original_price(self):
-        return "{:,}".format(self.price)
+        return round(discounted_amount)
 
     def is_discounted(self):
         return self.discount_percent != 0
@@ -64,19 +59,21 @@ class ProductModel(MainModel):
     def is_published(self):
         return self.status == ProductStatusType.publish.value
 
-    def is_published(self):
-        return self.status == ProductStatusType.publish.value
 
-
-    class Meta:
-        ordering = ["-created_date"]
-
-class ProductImageModel(MainModel):
+class ProductImageModel(models.Model):
     product = models.ForeignKey(ProductModel, on_delete=models.CASCADE, related_name="product_images")
-    file = models.ImageField(upload_to=UploadToPathAndRename("product/extra-img/"))
+    file = models.ImageField(upload_to="product/extra-img/")
 
     created_date = models.DateTimeField(auto_now_add=True)
     updated_date = models.DateTimeField(auto_now=True)
 
     class Meta:
         ordering = ["-created_date"]
+
+
+class WishlistProductModel(models.Model):
+    user = models.ForeignKey("accounts.User", on_delete=models.PROTECT)
+    product = models.ForeignKey(ProductModel, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.product.title

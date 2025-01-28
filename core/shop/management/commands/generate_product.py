@@ -2,7 +2,7 @@ import random
 from django.core.management.base import BaseCommand
 from django.utils.text import slugify
 from faker import Faker
-from ...models import ProductModel, ProductCategoryModel, ProductStatusType
+from shop.models import ProductModel, ProductCategoryModel, ProductStatusType
 from accounts.models import User, UserType
 from pathlib import Path
 from django.core.files import File
