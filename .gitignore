@@ -164,11 +164,15 @@ cython_debug/
 
 # Python
 
-app/__pycache__/
-app/*/__pycache__/
-app/*/*/__pycache__/
-app/*/*/*/__pycache__/
+core/__pycache__/
+core/*/__pycache__/
+core/*/*/__pycache__/
+core/*/*/*/__pycache__/
 
+core/media/
+core/shop/migrations/
+core/accounts/
+core/templates/accounts/
 
 # ignore database files
 postgres/data/*
