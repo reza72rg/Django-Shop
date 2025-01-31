@@ -4,6 +4,14 @@
  * Copyright 2011-2022 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  */
+
+ .formatted-price {
+    font-size: 18px;
+    font-weight: bold;
+    color: #white; /* Red color for better visibility */
+    margin-left: 5px;
+}
+
  @font-face {
 	font-family: vazir;
 	src: url('../fonts/vazir/Vazir-Light-FD-WOL.eot');
