@@ -5,7 +5,7 @@ from django.views.generic import (
 from django.shortcuts import render
 from django.core.exceptions import FieldError
 from .models import ProductModel, ProductStatusType, ProductCategoryModel
-
+from cart.cart import CartSession
 
 # Create your views here.
 
@@ -22,6 +22,7 @@ class ShopProductListView(ListView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data()
         context['total_items']  = self.get_queryset().count()
+        context["cart"] = CartSession(self.request.session)
         return context
 
 
@@ -55,6 +56,7 @@ class ShopProductGridView(ListView):
         context = super().get_context_data(**kwargs)
         context["total_items"] = self.get_queryset().count()
         context["categories"] = ProductCategoryModel.objects.all()
+        context["cart"] = CartSession(self.request.session)
         return context
 
 
@@ -62,4 +64,10 @@ class ShopProductDetailsView(DetailView):
     template_name = "shop/product-detail.html"
     queryset = ProductModel.objects.filter(
         status=ProductStatusType.publish.value)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context["cart"] = CartSession(self.request.session)
+        return context
 

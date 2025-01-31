@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.views import View
 from django.views.generic import TemplateView
+from cart.cart import CartSession
 # Create your views here.
 
 
@@ -9,7 +10,11 @@ class IndexViews(View):
     template_name = "home/index.html"
 
     def get(self, request):
-        return render(request, self.template_name)
+        cart = CartSession(request.session)
+        context = {
+            "cart": cart
+        }
+        return render(request, self.template_name, context)
 
 
 class ContactView(TemplateView):
